@@ -2,7 +2,7 @@ name: Django CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, backend]
   pull_request:
 
 permissions:

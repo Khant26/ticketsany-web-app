@@ -60,24 +60,42 @@ The test suite covers customer creation and password hashing, OTP validity and e
 
 The API router exposes resources under `/api/` for customers, banners, categories, events, orders, and tickets. Authentication endpoints cover registration, login, OTP verification/resending, and password recovery. See `ticketapp/urls.py` for the authoritative route list.
 
+`GET /health` (and `/health/`) returns `{"status": "ok"}` with HTTP 200 for container and load-balancer probes.
+
 ## Environment
 
-Copy `.env.example` and configure:
+All configuration comes from environment variables (a local `.env` is loaded if present). See `.env.example` for the full list. The main ones:
 
-- Django security and debug settings
-- Optional PostgreSQL connection URL
-- Allowed frontend/admin origins
-- Email delivery settings
-- Cloudinary account settings
+| Variable | Purpose |
+|---|---|
+| `DJANGO_SECRET_KEY` | Required when `DEBUG=False` (startup fails without it). |
+| `DEBUG` | `True` for local development only. |
+| `DJANGO_ALLOWED_HOSTS` | Comma-separated host names (default `localhost,127.0.0.1,.onrender.com`). |
+| `DATABASE_URL` | PostgreSQL URL; empty means SQLite (`SQLITE_PATH` or `db.sqlite3`). |
+| `CORS_ALLOWED_ORIGINS` | Comma-separated web-app origins, e.g. `https://ticketsany.com`. `FRONTEND_URL` / `ADMIN_URL` are still merged in. |
+| `CORS_ALLOWED_ORIGIN_REGEXES` | Optional, e.g. `^https://.*\.vercel\.app$` for preview builds. |
+| `CSRF_TRUSTED_ORIGINS` | Needed for Django admin login over HTTPS. |
+| `EMAIL_*`, `DEFAULT_FROM_EMAIL` | SMTP settings for OTP emails. |
+| `CLOUDINARY_*` | Image storage; without them uploads use local `media/`. |
 
 Never commit `.env`, database credentials, email passwords, or Cloudinary secrets.
 
+## Docker
+
+```bash
+docker build -t ticketsany-api .
+docker run --rm -p 8000:8000 --env-file .env -e DEBUG=False -e RUN_MIGRATIONS=1 ticketsany-api
+curl http://localhost:8000/health
+```
+
+The image (python:3.12-slim) collects static files at build time (served by WhiteNoise) and runs Gunicorn on `0.0.0.0:$PORT` (default `8000`) as a non-root user. `RUN_MIGRATIONS=1` applies migrations on start-up; `WEB_CONCURRENCY`, `GUNICORN_THREADS` and `GUNICORN_TIMEOUT` tune Gunicorn.
+
 ## Deployment notes
 
-- Apply migrations before starting Gunicorn.
+- Apply migrations before serving traffic (`RUN_MIGRATIONS=1`, or `python manage.py migrate`).
 - Use `DEBUG=False` and a strong secret key in production.
 - Provide origins without trailing slashes.
-- Configure the frontend and admin domains explicitly; review the preview-domain regex before using this service for sensitive production data.
+- Configure the web app's domain explicitly in `CORS_ALLOWED_ORIGINS`; only add the preview-domain regex if you need it.
 
 ## License
 

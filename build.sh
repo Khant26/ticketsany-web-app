@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
-# exit on error
+# Build script for platforms that build from source (e.g. Render).
 set -o errexit
 
-echo "🔧 Installing dependencies..."
+echo "Installing dependencies..."
 pip install --upgrade pip
 pip install -r requirements.txt
 
-echo "📦 Collecting static files..."
+echo "Collecting static files..."
 python manage.py collectstatic --no-input
 
-echo "🗄️ Running migrations..."
-python manage.py migrate
+echo "Running migrations..."
+python manage.py migrate --no-input
 
-echo "📁 Ensuring media directories exist..."
-python manage.py ensure_media_dirs
-
-echo "👤 Creating superuser (if environment variables are set)..."
-python manage.py create_superuser
-
-echo "✅ Build completed successfully!"
+echo "Build completed successfully."
