@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router"
 import { lazy, Suspense } from "react"
 import Layout from "../Layout"
 import App from "../pages/App"
+import adminRoutes from "../admin/routes"
 
 import Home from "../pages/Home"
 import SignUp from "../components/SignUp"
@@ -68,7 +69,9 @@ let router = createBrowserRouter([
         Component: withSuspense(ErrorPage),
       },
     ],
-  }
+  },
+  // Admin dashboard: /admin/login and /admin/* (own layout, no customer navbar/footer)
+  ...adminRoutes,
 ])
 
 export default router

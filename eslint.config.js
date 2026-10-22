@@ -30,7 +30,8 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/routes/**/*.{js,jsx}'],
+    // Route modules define small inline wrapper components next to the route table.
+    files: ['src/routes/**/*.{js,jsx}', 'src/admin/routes.jsx'],
     rules: { 'react-refresh/only-export-components': 'off' },
   },
   {
