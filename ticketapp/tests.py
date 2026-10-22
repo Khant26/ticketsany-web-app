@@ -180,3 +180,11 @@ class PermissionTests(TestCase):
 class ModelDefaultTests(TestCase):
     def test_ticket_default_status_uses_choice_value(self):
         self.assertEqual(Ticket._meta.get_field("status").get_default(), "pending")
+
+
+class HealthEndpointTests(TestCase):
+    def test_health_returns_ok_json(self):
+        for url in ("/health", "/health/"):
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json(), {"status": "ok"})

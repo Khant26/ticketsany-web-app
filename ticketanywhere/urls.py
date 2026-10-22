@@ -1,25 +1,28 @@
 """
-URL configuration for ticketanywhere project.
+URL configuration for the TicketsAnywhere API.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+- /health          liveness probe for containers / load balancers
+- /admin/          Django admin
+- /api/            REST API (see ticketapp/urls.py)
+- /api/token/...   SimpleJWT token endpoints
+- /api-auth/       DRF browsable-API login
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.http import JsonResponse
+from django.urls import path, include
+from django.views.decorators.http import require_safe
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
+@require_safe
+def health(request):
+    """Lightweight liveness check; does not touch the database."""
+    return JsonResponse({'status': 'ok'})
+
+
 urlpatterns = [
+    path('health', health, name='health'),
+    path('health/', health),
     path('admin/', admin.site.urls),
     path('api/', include('ticketapp.urls')),
     # JWT endpoints

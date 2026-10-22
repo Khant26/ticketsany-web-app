@@ -1,10 +1,6 @@
 BASE URLS
 http://127.0.0.1:8000/api/
 
-admin@example.com
-admin77
-admin74123
-
 Authentication
 | Endpoint                      | Method | Description                                          | Auth Required |
 | ----------------------------- | ------ | ---------------------------------------------------- | ------------- |

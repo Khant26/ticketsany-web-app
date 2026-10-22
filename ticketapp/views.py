@@ -52,7 +52,7 @@ class UserRegisterView(generics.CreateAPIView):
             Best regards,
             Ticket Anywhere Team
             ''',
-            settings.EMAIL_HOST_USER,
+            settings.DEFAULT_FROM_EMAIL,
             [user.email],
         )
         return Response({
@@ -117,7 +117,7 @@ class ResendOTPView(generics.GenericAPIView):
         Best regards,
         Ticket Anywhere Team
         ''',
-            settings.EMAIL_HOST_USER,
+            settings.DEFAULT_FROM_EMAIL,
             [user.email],
         )       
         return Response({"message": "New OTP code sent to your email."}, status=status.HTTP_200_OK) 
@@ -156,7 +156,7 @@ class ForgotPasswordView(generics.GenericAPIView):
         Best regards,
         Ticket Anywhere Team
         ''',
-            settings.EMAIL_HOST_USER,
+            settings.DEFAULT_FROM_EMAIL,
             [user.email],
         )       
         return Response({"message": "Password reset OTP sent to your email."}, status=status.HTTP_200_OK)
