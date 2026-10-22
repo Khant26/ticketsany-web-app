@@ -3,6 +3,7 @@ import Logo from "../assets/logo.jpg";
 import { useTranslation } from "react-i18next";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { showSuccess, showError, showWarning } from "../utils/toastNotification";
+import { API_BASE_URL } from "../config/api";
 
 const ACTIVE_SUBMIT_COLOR = "#e05680";
 const INACTIVE_SUBMIT_COLOR = "#f7c7d4";
@@ -63,7 +64,7 @@ function SignIn({
     setOtpLoading(true);
     try {
       const baseUrl =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
+        API_BASE_URL;
       const response = await fetch(`${baseUrl}auth/resend-otp/`, {
         method: "POST",
         headers: {
@@ -103,7 +104,7 @@ function SignIn({
     setOtpLoading(true);
     try {
       const baseUrl =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
+        API_BASE_URL;
       const response = await fetch(`${baseUrl}auth/verify-email/`, {
         method: "POST",
         headers: {
@@ -142,7 +143,7 @@ function SignIn({
 
     try {
       const baseUrl =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
+        API_BASE_URL;
       const response = await fetch(`${baseUrl}auth/login/`, {
         method: "POST",
         headers: {

@@ -2,10 +2,11 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AUTH_REQUIRED_EVENT, clearAuthStorage, setOnTokenExpired } from "../services/apiClient";
 import { showError, showSessionExpired } from "../utils/toastNotification";
+import { API_BASE_URL } from "../config/api";
 
 const AuthContext = createContext();
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
+const API_BASE = API_BASE_URL;
 
 const AuthContextProvider = ({ children}) => {
     let [user, setUser] = useState(null);
@@ -97,7 +98,6 @@ const AuthContextProvider = ({ children}) => {
         setOnTokenExpired(() => logout({ showToast: true, requireReauth: true }));
     }, [])
 
-    console.log(user)
 
     return (
         <AuthContext.Provider value={{ user, getUser, login, logout, loading }}>{children}</AuthContext.Provider>

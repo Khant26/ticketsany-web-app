@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo.jpg";
 import { useTranslation } from "react-i18next";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { API_BASE_URL } from "../config/api";
 
 const OTP_RESEND_DELAY_SECONDS = 60;
 const ACTIVE_SUBMIT_COLOR = "#e05680";
@@ -78,8 +79,6 @@ function SignUp({ isOpen, onClose, onSwitchToSignIn }) {
     setLoading(true);
 
     try {
-      const API_BASE_URL =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
 
       const payload = {
         email: formData.email.trim(),
@@ -151,8 +150,6 @@ function SignUp({ isOpen, onClose, onSwitchToSignIn }) {
     setLoading(true);
 
     try {
-      const API_BASE_URL =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
 
       const resendRes = await fetch(`${API_BASE_URL}auth/resend-otp/`, {
         method: "POST",
@@ -206,8 +203,6 @@ function SignUp({ isOpen, onClose, onSwitchToSignIn }) {
     setLoading(true);
 
     try {
-      const API_BASE_URL =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
 
       const payload = {
         email: formData.email.trim(),

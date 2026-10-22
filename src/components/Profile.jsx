@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import OrderDetails from "./OrderDetails";
 import Logo from "../assets/logo.jpg";
 import { authFetch } from "../services/apiClient";
+import { API_BASE_URL } from "../config/api";
 
 const ACTIVE_SUBMIT_COLOR = "#e05680";
 const INACTIVE_SUBMIT_COLOR = "#f7c7d4";
@@ -372,8 +373,6 @@ function Profile() {
     setChangingPassword(true);
 
     try {
-      const API_BASE_URL =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
       const userEmail = getUserEmail();
 
       if (!userEmail) {
@@ -478,8 +477,6 @@ function Profile() {
 
     setChangingPassword(true);
     try {
-      const API_BASE_URL =
-        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api/";
       const userEmail = getUserEmail();
 
       if (!userEmail) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Logo from '../assets/logo.jpg'
 import { useTranslation } from 'react-i18next'
+import { API_BASE_URL } from "../config/api";
 
 const ACTIVE_SUBMIT_COLOR = '#e05680';
 const INACTIVE_SUBMIT_COLOR = '#f7c7d4';
@@ -17,7 +18,6 @@ function ForgotPassword({ isOpen, onClose, onSwitchToSignUp }) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/';
   const trimmedEmail = email.trim();
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail);
   const isOtpValid = otpCode.trim().length === 6;
